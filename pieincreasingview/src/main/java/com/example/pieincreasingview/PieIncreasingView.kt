@@ -187,4 +187,27 @@ class PieIncreasingView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : PieIncreasingView) {
+
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        private val animator : Animator = Animator(view)
+        private val pi : PieIncreasing = PieIncreasing(0)
+
+        fun render(canvas : Canvas) {
+            canvas.drawColor(backColor)
+            pi.draw(canvas, paint)
+            animator.animate {
+                pi.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            pi.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
