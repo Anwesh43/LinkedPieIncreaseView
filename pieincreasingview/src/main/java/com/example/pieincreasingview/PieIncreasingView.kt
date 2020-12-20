@@ -212,4 +212,13 @@ class PieIncreasingView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : PieIncreasingView {
+            val view : PieIncreasingView = PieIncreasingView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
