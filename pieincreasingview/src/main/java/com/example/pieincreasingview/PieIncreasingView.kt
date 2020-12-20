@@ -170,7 +170,6 @@ class PieIncreasingView(ctx : Context) : View(ctx) {
 
         private var curr : PINode = PINode(0)
         private var dir : Int = 1
-        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
         fun draw(canvas : Canvas, paint : Paint) {
             curr.draw(canvas, paint)
