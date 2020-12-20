@@ -93,32 +93,32 @@ class PieIncreasingView(ctx : Context) : View(ctx) {
                 cb()
             }
         }
+    }
 
-        data class Animator(var view : View, var animated : Boolean = false) {
+    data class Animator(var view : View, var animated : Boolean = false) {
 
-            fun animate(cb : () -> Unit) {
-                if (animated) {
-                    cb()
-                    try {
-                        Thread.sleep(delay)
-                        view.invalidate()
-                    } catch(ex : Exception) {
+        fun animate(cb : () -> Unit) {
+            if (animated) {
+                cb()
+                try {
+                    Thread.sleep(delay)
+                    view.invalidate()
+                } catch(ex : Exception) {
 
-                    }
                 }
             }
+        }
 
-            fun start() {
-                if (!animated) {
-                    animated = true
-                    view.postInvalidate()
-                }
+        fun start() {
+            if (!animated) {
+                animated = true
+                view.postInvalidate()
             }
+        }
 
-            fun stop() {
-                if (animated) {
-                    animated = false
-                }
+        fun stop() {
+            if (animated) {
+                animated = false
             }
         }
     }
@@ -161,6 +161,30 @@ class PieIncreasingView(ctx : Context) : View(ctx) {
             }
             cb()
             return this
+        }
+    }
+
+    data class PieIncreasing(var i : Int) {
+
+        private var curr : PINode = PINode(0)
+        private var dir : Int = 1
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            curr.draw(canvas, paint)
+        }
+
+        fun update(cb : (Float) -> Unit) {
+            curr.update {
+                curr = curr.getNext(dir) {
+                    dir *= -1
+                }
+                cb(it)
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            curr.startUpdating(cb)
         }
     }
 }
